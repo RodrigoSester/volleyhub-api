@@ -4,7 +4,7 @@ import pluginJs from "@eslint/js";
 
 export default [
   {
-    files: ["*.js", "*.mjs",],
+    files: ["*.js", "*.mjs"],
     languageOptions: { 
       globals: globals.browser,
     },
@@ -27,9 +27,9 @@ export default [
       "require-await": "warn",
       "sort-imports": "warn",
       "strict": "error",
-      "linebreak-style": ["error", "unix",],
-      "comma-dangle": ["error", "always",],
-      "max-lines-per-function": ["error", { max: 20, },],
+      "comma-dangle": ["error", "always-multiline"],
+      "max-lines-per-function": ["error", { max: 20 }],
+      "semi": ["error", "always"],
     },
   },
   pluginJs.configs.recommended,
