@@ -4,5 +4,4 @@ import knex from 'knex';
 
 export const development = developmentConfig;
 
-const db = knex(development);
-export default db;
+knex(development);
