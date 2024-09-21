@@ -11,7 +11,11 @@ const register = async (req, res) => {
 
   const user = await registerUserUseCase(body);
 
-  const token = jsonwebtoken.sign({ user }, dotenv.config().parsed?.JWT_SECRET, {
+  const tokenData = {
+    id: user.id,
+    email: user.email,
+  };
+  const token = jsonwebtoken.sign(tokenData, dotenv.config().parsed?.JWT_SECRET, {
     expiresIn: "1h",
   });
 
