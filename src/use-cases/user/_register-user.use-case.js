@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
 
+import { userService } from '../../services/index.js';
+
 function _validateUserBody (user) {
   const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -20,6 +22,7 @@ export async function registerUser (user) {
   const hashedPassword = await bcrypt.hash(user.password, 10);
 
   user.password = hashedPassword;
+  const userRegistered = await userService.register(user);
 
-  return user;
+  return userRegistered;
 };
