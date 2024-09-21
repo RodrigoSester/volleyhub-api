@@ -31,7 +31,7 @@ const login = async (req, res) => {
 
   const user = await getUserByEmailUseCase(userDTO);
 
-  jsonwebtoken.verify({ user });
+  jsonwebtoken.verify({ user }, dotenv.config().parsed?.JWT_SECRET);
 
   res.send({
     message: "User logged in successfully",
