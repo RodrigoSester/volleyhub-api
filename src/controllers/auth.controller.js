@@ -11,9 +11,11 @@ const register = async (req, res) => {
 
   const user = await registerUserUseCase(body);
 
-  jsonwebtoken.sign({ user }, dotenv.config().parsed?.JWT_SECRET, {
+  const token = jsonwebtoken.sign({ user }, dotenv.config().parsed?.JWT_SECRET, {
     expiresIn: "1h",
   });
+
+  user.token = token;
 
   res.send({
     message: "User registered successfully",
@@ -27,11 +29,12 @@ const login = async (req, res) => {
   const userDTO = {
     email: body.email,
     password: body.password,
+    token: body.token,
   };
 
   const user = await getUserByEmailUseCase(userDTO);
 
-  jsonwebtoken.verify({ user }, dotenv.config().parsed?.JWT_SECRET);
+  jsonwebtoken.verify(user.token, dotenv.config().parsed?.JWT_SECRET);
 
   res.send({
     message: "User logged in successfully",
