@@ -1,13 +1,9 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
-const getUserByEmail = async (user) => {
+export async function getUserByEmail (user) {
   const hashedPassword = await bcrypt.hash(user.password, 10);
 
   user.password = hashedPassword;
 
   return user;
-};
-
-export default {
-  getUserByEmail,
 };

@@ -1,5 +1,9 @@
+import {
+  getUserByEmail as getUserByEmailUseCase,
+  registerUser as registerUserUseCase,
+} from "../use-cases/user/index.js";
+
 import jsonwebtoken from "jsonwebtoken";
-import { registerUserUseCase } from "../use-cases/user";
 
 const register = async (req, res) => {
   const body = {...req.body};

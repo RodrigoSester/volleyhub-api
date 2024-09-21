@@ -1,7 +1,9 @@
-import app from "../../index.js";
-import { register, login } from "../controllers/auth.controller.js";
+import { Router } from "express";
+import authController from "../controllers/auth.controller.js";
 
-export default () => {
-  app.get("/auth/register", register);
-  app.get("/auth/login", login);
-}
+const authRouter = Router();
+
+authRouter.post("/register", authController.register);
+authRouter.post("/login", authController.login);
+
+export default authRouter;

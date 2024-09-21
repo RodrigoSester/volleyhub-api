@@ -1,6 +1,9 @@
+import { Router } from "express";
 
-import app from "../../index.js";
+const userRouter = Router();
 
-export default () => {
-  app.get("/users", );
-}
+userRouter.get("/users", (req, res) => {
+  res.send("All users");
+});
+
+export default userRouter;
