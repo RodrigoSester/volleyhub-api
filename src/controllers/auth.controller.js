@@ -3,6 +3,7 @@ import {
   registerUser as registerUserUseCase,
 } from "../use-cases/user/index.js";
 
+import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
 const register = async (req, res) => {
@@ -10,7 +11,9 @@ const register = async (req, res) => {
 
   const user = await registerUserUseCase(body);
 
-  jsonwebtoken.sign({ user });
+  jsonwebtoken.sign({ user }, dotenv.config().parsed?.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 
   res.send({
     message: "User registered successfully",
