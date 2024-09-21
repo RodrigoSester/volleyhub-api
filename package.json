@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "lint:fix": "eslint --fix .",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
