@@ -1,6 +1,7 @@
 import {
   editTeam as editTeamUseCase,
   registerTeam as registerTeamUseCase,
+  removeTeam as removeTeamUseCase,
 } from "../use-cases/team/index.js";
 
 import dotenv from "dotenv";
@@ -34,7 +35,18 @@ const edit = async (req, res) => {
   }).status(200);
 };
 
+const remove = async (req, res) => {
+  const teamId = req.params.id;
+
+  await removeTeamUseCase(teamId);
+
+  res.send({
+    message: "Team removed successfully",
+  }).status(204);
+};
+
 export default {
   register,
   edit,
+  remove,
 };

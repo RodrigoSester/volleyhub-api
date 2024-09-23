@@ -12,3 +12,10 @@ export async function edit(team) {
     .update(team)
     .then((results) => results[0]);
 }
+
+
+export async function remove(teamId) {
+  return await db('teams')
+    .update(teamId)
+    .then((results) => results[0]);
+}

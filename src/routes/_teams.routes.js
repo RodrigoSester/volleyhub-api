@@ -5,5 +5,6 @@ const teamsRouter = Router();
 
 teamsRouter.post("/", teamsController.register);
 teamsRouter.put("/:id", teamsController.edit);
+teamsRouter.delete("/:id", teamsController.remove);
 
 export default teamsRouter;
