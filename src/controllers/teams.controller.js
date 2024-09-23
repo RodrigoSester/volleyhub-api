@@ -1,5 +1,6 @@
 import {
   editTeam as editTeamUseCase,
+  getAllTeams as getAllTeamsUseCase,
   registerTeam as registerTeamUseCase,
   removeTeam as removeTeamUseCase,
 } from "../use-cases/team/index.js";
@@ -45,8 +46,18 @@ const remove = async (req, res) => {
   }).status(204);
 };
 
+const getAll = async (req, res) => {
+  const teams = await getAllTeamsUseCase();
+
+  res.send({
+    message: "",
+    body: teams,
+  });
+};
+
 export default {
   register,
   edit,
   remove,
+  getAll,
 };

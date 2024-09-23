@@ -16,11 +16,17 @@ function _validateUpdateTeamBody(team) {
   }
 }
 
-export async function editTeam(team) {
-  _validateUpdateTeamBody(team);
+export async function editTeam(body) {
+  _validateUpdateTeamBody(body);
+
+  const team = teamService.getById(body.id);
+
+  if (!team) {
+    throw new Error(`Team ${team.id} does not exists`);
+  }
 
   try {
-    const teamUpdated = await teamService.edit(team);
+    const teamUpdated = await teamService.edit(body);
 
     return teamUpdated;
   } catch (error) {

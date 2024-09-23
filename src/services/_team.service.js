@@ -1,10 +1,16 @@
 import db from '../../database/config/index.js';
 
-export async function getTeamById(teamId) {
+export async function getById(teamId) {
   return await db('teams')
     .select('*')
-    .where('id')
-    .equalsTo(teamId);
+    .from('teams')
+    .where(`id = ${teamId}`);
+}
+
+export async function getAll() {
+  return await db()
+    .select("*")
+    .from('teams');
 }
 
 export async function register(team) {
