@@ -3,7 +3,7 @@ import jsonwebtoken from "jsonwebtoken";
 
 import {
   registerTeam as registerTeamUseCase,
-} from "../use-cases/teams/index.js";
+} from "../use-cases/team/index.js";
 
 
 const register = async (req, res) => {
