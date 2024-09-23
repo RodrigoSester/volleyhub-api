@@ -1,13 +1,12 @@
 import Joi from 'joi';
 import { teamService } from '../../services';
 
-function _validateTeamBody(team) {
+function _validateUpdateTeamBody(team) {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     abbreviation: Joi.string().max(5).required(),
     flag_url: Joi.string().uri(),
     monthly_fee: Joi.number().integer(),
-    modality: Joi.string().valid('female', 'male', 'mixed').required(),
   });
   
   const { error } = schema.validate(team);
@@ -17,13 +16,13 @@ function _validateTeamBody(team) {
   }
 }
 
-export async function registerTeam(team) {
-  _validateTeamBody(team);
+export async function editTeam(team) {
+  _validateUpdateTeamBody(team);
 
   try {
-    const teamRegistered = await teamService.register(team);
+    const teamUpdated = await teamService.edit(team);
 
-    return teamRegistered;
+    return teamUpdated;
   } catch (error) {
     throw new Error(error.message);
   }
