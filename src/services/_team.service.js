@@ -1,5 +1,12 @@
 import db from '../../database/config/index.js';
 
+export async function getTeamById(teamId) {
+  return await db('teams')
+    .select('*')
+    .where('id')
+    .equalsTo(teamId);
+}
+
 export async function register(team) {
   return await db('teams')
     .insert(team)
@@ -12,7 +19,6 @@ export async function edit(team) {
     .update(team)
     .then((results) => results[0]);
 }
-
 
 export async function remove(teamId) {
   return await db('teams')
