@@ -9,7 +9,7 @@ export function up(knex) {
     table.string("abbreviation", 5).notNullable();
     table.string("flag_url");
     table.integer("monthly_fee");
-    table.enum("modality_enum").notNullable();
+    table.varchar("modality").notNullable();
     table.integer("created_by").references("id").inTable("users");
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.integer("updated_by").references("id").inTable("users");
@@ -18,7 +18,7 @@ export function up(knex) {
     table.timestamp("deleted_at");
     table.integer("deleted_by").references("id").inTable("users");
 
-    table.index(["name", "abbreviation"], "idx_team_name_abbreviation").unique();
+    table.index(["name", "abbreviation"], "idx_team_name_abbreviation");
     table.index("modality", "idx_team_modality");
   });
 };
