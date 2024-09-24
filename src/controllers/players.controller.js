@@ -1,5 +1,8 @@
 import {
   getAllPlayers as getAllPlayersUseCase,
+  getPlayerById as getPlayerByIdUseCase,
+  editPlayer as editPlayerUseCase,
+  removeTeamPlayer as removeTeamPlayerUseCase,
 } from '../use-cases/team/index.js';
 
 const getAll = async (req, res) => {
@@ -49,8 +52,25 @@ const edit = async (req, res) => {
   });
 };
 
+const remove = async (req, res) => {
+  const teamId = req.params.teamId;
+  const playerId = req.params.playerId;
+
+  const teamPlayersDTO = {
+    teamId,
+    playerId,
+  };
+  const player = await removeTeamPlayerUseCase(teamPlayersDTO);
+
+  res.send({
+    message: "",
+    body: player,
+  });
+};
+
 export default {
   getAll,
   getById,
   edit,
+  remove,
 }
