@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { teamService } from '../../services';
+import { teamService } from '../../services/index.js';
 
 function _validateUpdateTeamBody(team) {
   const schema = Joi.object({
@@ -19,7 +19,7 @@ function _validateUpdateTeamBody(team) {
 export async function editTeam(body) {
   _validateUpdateTeamBody(body);
 
-  const team = teamService.getById(body.id);
+  const team = await teamService.getById(body.id);
 
   if (!team) {
     throw new Error(`Team ${team.id} does not exists`);

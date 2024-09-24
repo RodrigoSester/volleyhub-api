@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { teamService } from '../../services';
+import { teamService } from '../../services/index.js';
 
 function _validateTeamBody(team) {
   const schema = Joi.object({

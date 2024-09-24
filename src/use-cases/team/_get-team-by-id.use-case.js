@@ -1,4 +1,4 @@
-import { teamService } from '../../services';
+import { teamService } from '../../services/index.js';
 
 export async function getTeamById(teamId) {
   const team = await teamService.getById(teamId);
