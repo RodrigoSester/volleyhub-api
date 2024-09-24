@@ -32,7 +32,25 @@ const getById = async (req, res) => {
   });
 };
 
+const edit = async (req, res) => {
+  const teamId = req.params.teamId;
+  const playerId = req.params.playerId;
+
+  const teamPlayersDTO = {
+    teamId,
+    playerId,
+    ...req.body,
+  };
+  const player = await editPlayerUseCase(teamPlayersDTO);
+
+  res.send({
+    message: "",
+    body: player,
+  });
+};
+
 export default {
   getAll,
   getById,
+  edit,
 }

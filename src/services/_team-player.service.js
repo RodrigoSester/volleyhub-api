@@ -12,3 +12,9 @@ export async function getById(playerId) {
     .from('team_players')
     .where({ 'player_id': playerId });
 }
+
+export async function edit(playerDTO) {
+  return await db('team_players')
+    .where({ 'player_id': playerDTO.playerId })
+    .update(playerDTO);
+}
