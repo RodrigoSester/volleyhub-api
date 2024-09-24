@@ -4,7 +4,7 @@ export async function getById(teamId) {
   return await db('teams')
     .select('*')
     .from('teams')
-    .where(`id = ${teamId}`);
+    .where({ id: teamId });
 }
 
 export async function getAll() {
