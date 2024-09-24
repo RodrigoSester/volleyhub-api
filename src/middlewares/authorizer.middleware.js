@@ -16,9 +16,13 @@ function _verifyAuthorization(authorization) {
 export function authorizer(req, res, next) {
   const { authorization } = req.headers;
 
-  _verifyAuthorization(authorization);
-
-  req.authorizer = jsonwebtoken.decode(authorization);
-
-  next();
+  try {
+    _verifyAuthorization(authorization);
+  
+    req.authorizer = jsonwebtoken.decode(authorization);
+  
+    next();
+  } catch {
+    res.status(401).json({ message: "Unauthorized"});
+  }
 }
