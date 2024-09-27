@@ -7,7 +7,7 @@ import userRoutes from "./_user.routes.js";
 
 const router = Router();
 
-router.use("/auth", authorizer, authRoutes);
+router.use("/auth", authRoutes);
 router.use("/user", authorizer, userRoutes);
 router.use("/teams", authorizer, teamsRouter);
 
