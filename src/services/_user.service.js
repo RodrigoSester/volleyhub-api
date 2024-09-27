@@ -6,3 +6,17 @@ export async function register(user) {
     .returning(['id', 'name', 'email', 'phone', 'profile_photo', 'document', 'age'])
     .then((results) => results[0]);
 };
+
+export async function getUserByEmail (email) {
+  return await db('users')
+    .select('id', 'name', 'email')
+    .where({ email })
+    .first();
+}
+
+export async function getUserById (userId) {
+  return await db('users')
+    .select('id', 'name', 'email')
+    .where({ id: userId })
+    .first();
+};
