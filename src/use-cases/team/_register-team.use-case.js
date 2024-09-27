@@ -8,6 +8,7 @@ function _validateTeamBody(team) {
     flag_url: Joi.string().uri(),
     monthly_fee: Joi.number().integer(),
     modality: Joi.string().valid('female', 'male', 'mixed').required(),
+    user_id: Joi.number().integer().required(),
   });
   
   const { error } = schema.validate(team);
@@ -17,14 +18,18 @@ function _validateTeamBody(team) {
   }
 }
 
-export async function registerTeam(team) {
-  _validateTeamBody(team);
+export async function registerTeam(teamDTO) {
+  _validateTeamBody(teamDTO);
 
   try {
-    const teamRegistered = await teamService.register(team);
-
+    const teamRegistered = await teamService.register(teamDTO);
+  
     return teamRegistered;
   } catch (error) {
+    if (error.constraint === 'teams_name_unique') {
+      throw new Error("Team name already in use");
+    }
+
     throw new Error(error.message);
   }
 }
