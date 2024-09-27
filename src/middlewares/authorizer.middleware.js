@@ -1,26 +1,36 @@
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
-function _verifyAuthorization(authorization) {
+async function _verifyAuthorization(authorization) {
   if (!authorization) {
     throw new Error("Unauthorized");
   }
 
-  jsonwebtoken.verify(authorization, dotenv.config().parsed.JWT_SECRET, (err) => {
+  return jsonwebtoken.verify(authorization, dotenv.config().parsed.JWT_SECRET, (err) => {
     if (err) {
       throw new Error("Unauthorized");
     }
+
+    const tokenUser = jsonwebtoken.decode(authorization);
+
+    if (!tokenUser) {
+      throw new Error("Unauthorized");
+    }
+
+    return tokenUser;
   });
 }
 
-export function authorizer(req, res, next) {
+export async function authorizer(req, res, next) {
   const { authorization } = req.headers;
 
   try {
-    _verifyAuthorization(authorization);
-  
-    req.authorizer = jsonwebtoken.decode(authorization);
-  
+    const tokenUser = await _verifyAuthorization(authorization);
+
+    await getUserByIdUseCase(tokenUser.id);
+
+    req.authorizer = tokenUser;
+
     next();
   } catch {
     res.status(401).json({ message: "Unauthorized"});
