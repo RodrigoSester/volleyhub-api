@@ -4,7 +4,7 @@ import pluginJs from "@eslint/js";
 
 export default [
   {
-    files: ["*.js", "*.mjs", "**/*.js"],
+    files: ["*.js", "*.mjs", "**/*.js", "**/**/*.js"],
     ignorePatterns: ["database/migrations/*", "dabaase/seeds/*"],
     languageOptions: { 
       globals: globals.browser,
