@@ -6,24 +6,27 @@ import {
   removeTeam as removeTeamUseCase,
 } from "../use-cases/team/index.js";
 
-import dotenv from "dotenv";
-import jsonwebtoken from "jsonwebtoken";
-
 const register = async (req, res) => {
   const body = {...req.body};
+  const { userId } = req.authorizer;
 
-  jsonwebtoken.verify(body.token, dotenv.config().parsed?.JWT_SECRET);
+  const teamDTO = {
+    ...body,
+    user_id: userId,
+  };
 
-  const authorizer = jsonwebtoken.decode(body.token);
-
-  body.authorizer = authorizer;
-
-  const team = await registerTeamUseCase(body);
-
-  res.send({
-    message: "Team registered successfully",
-    body: team,
-  }).status(201);
+  try {
+    const team = await registerTeamUseCase(teamDTO);
+  
+    res.send({
+      message: "Team registered successfully",
+      body: team,
+    }).status(201);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const edit = async (req, res) => {
