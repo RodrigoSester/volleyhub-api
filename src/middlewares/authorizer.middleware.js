@@ -1,3 +1,7 @@
+import {
+  getUserById as getUserByIdUseCase,
+} from "../use-cases/user/index.js";
+
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
@@ -29,7 +33,9 @@ export async function authorizer(req, res, next) {
 
     await getUserByIdUseCase(tokenUser.id);
 
-    req.authorizer = tokenUser;
+    req.authorizer = {
+      userId: tokenUser.id,
+    };
 
     next();
   } catch {
