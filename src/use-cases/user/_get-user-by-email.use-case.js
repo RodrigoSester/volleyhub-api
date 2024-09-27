@@ -1,9 +1,11 @@
-import bcrypt from 'bcrypt';
+import { userService } from '../../services/index.js';
 
-export async function getUserByEmail (user) {
-  const hashedPassword = await bcrypt.hash(user.password, 10);
+export async function getUserByEmail (userDTO) {
+  const user = await userService.getUserByEmail(userDTO.email);
 
-  user.password = hashedPassword;
+  if (!user) {
+    throw new Error('User not found');
+  }
 
   return user;
 };
