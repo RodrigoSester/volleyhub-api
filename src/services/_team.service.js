@@ -15,7 +15,14 @@ export async function getAll() {
 
 export async function register(team) {
   return await db('teams')
-    .insert(team)
+    .insert({
+      name: team.name,
+      abbreviation: team.abbreviation,
+      flag_url: team.flag_url,
+      monthly_fee: team.monthly_fee,
+      modality: team.modality,
+      created_by: team.user_id,
+    })
     .returning(['id', 'name', 'abbreviation', 'flag_url', 'monthly_fee', 'modality', 'created_by', 'created_at'])
     .then((results) => results[0]);
 };
