@@ -3,14 +3,11 @@ import {
   registerUser as registerUserUseCase,
 } from "../use-cases/user/index.js";
 
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
-const register = async (req, res) => {
-  const body = {...req.body};
-
-  const user = await registerUserUseCase(body);
-
+function _setToken(req, user) {
   const tokenData = {
     id: user.id,
     email: user.email,
@@ -19,12 +16,28 @@ const register = async (req, res) => {
     expiresIn: "1h",
   });
 
-  user.token = token;
+  req.headers.authorization = token;
 
-  res.send({
-    message: "User registered successfully",
-    body: user,
-  }).status(201);
+  return token;
+}
+
+const register = async (req, res) => {
+  const body = {...req.body};
+
+  try {
+    const user = await registerUserUseCase(body);
+  
+    _setToken(req, user);
+  
+    res.send({
+      message: "User registered successfully",
+      body: user,
+    }).status(201);
+  } catch (err) {
+    res.status(400).send({
+      message: err.message,
+    });
+  }
 };
 
 const login = async (req, res) => {
@@ -33,17 +46,28 @@ const login = async (req, res) => {
   const userDTO = {
     email: body.email,
     password: body.password,
-    token: body.token,
   };
 
-  const user = await getUserByEmailUseCase(userDTO);
+  try {
+    const user = await getUserByEmailUseCase(userDTO);
 
-  jsonwebtoken.verify(user.token, dotenv.config().parsed?.JWT_SECRET);
+    const isPasswordValid = await bcrypt.compare(userDTO.password, user.password);
 
-  res.send({
-    message: "User logged in successfully",
-    body: user,
-  }).status(200);
+    if (!isPasswordValid) {
+      throw new Error("Invalid password");
+    }
+  
+    _setToken(req, user);
+  
+    res.send({
+      message: "User logged in successfully",
+      body: user,
+    }).status(200);
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+    });
+  }
 };
 
 export default {
