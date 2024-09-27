@@ -16,6 +16,7 @@ function _setToken(req, user) {
     expiresIn: "1h",
   });
 
+  user.token = token;
   req.headers.authorization = token;
 
   return token;
