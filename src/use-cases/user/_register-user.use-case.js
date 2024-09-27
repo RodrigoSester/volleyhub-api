@@ -33,8 +33,15 @@ export async function registerUser (user) {
 
     return userRegistered;
   } catch (error) {
-    if (error.message.includes('duplicate key value violates unique constraint')) {
-      throw new Error('User already exists');
+    if (error.constraint) {
+      switch (error.constraint) {
+        case 'users_email_unique':
+          throw new Error('Email already in use');
+        case 'users_document_unique':
+          throw new Error('Document already in use');
+        case 'users_phone_unique':
+          throw new Error('Phone already in use');
+      }
     }
 
     throw new Error(error.message);
