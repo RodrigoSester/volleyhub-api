@@ -26,19 +26,24 @@ const getAll = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const teamId = req.params.teamId;
-  const playerId = req.params.playerId;
+  const { teamId, id } = req.params;
 
-  const teamPlayersDTO = {
-    teamId,
-    playerId,
-  };
-  const player = await getPlayerByIdUseCase(teamPlayersDTO);
-
-  res.send({
-    message: "",
-    body: player,
-  });
+  try {
+    const teamPlayersDTO = {
+      teamId,
+      playerId: id,
+    };
+    const player = await getPlayerByIdUseCase(teamPlayersDTO);
+  
+    res.send({
+      message: "",
+      body: player,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const edit = async (req, res) => {
