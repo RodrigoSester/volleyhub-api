@@ -60,7 +60,7 @@ const edit = async (req, res) => {
     const player = await editPlayerUseCase(teamPlayersDTO);
   
     res.send({
-      message: "",
+      message: "Player updated successfully",
       body: player,
     });
   } catch (error) {
@@ -71,19 +71,27 @@ const edit = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-  const teamId = req.params.teamId;
-  const playerId = req.params.playerId;
+  const { teamId, id } = req.params;
+  const { userId } = req.authorizer;
 
-  const teamPlayersDTO = {
-    teamId,
-    playerId,
-  };
-  const player = await removeTeamPlayerUseCase(teamPlayersDTO);
+  try {
+    const teamPlayersDTO = {
+      teamId,
+      playerId: id,
+      user_id: userId,
+    };
+    const player = await removeTeamPlayerUseCase(teamPlayersDTO);
+  
+    res.send({
+      message: "Team player removed successfully",
+      body: player,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 
-  res.send({
-    message: "",
-    body: player,
-  });
 };
 
 export default {
