@@ -14,6 +14,10 @@ function _validateTeamBody(team) {
   const { error } = schema.validate(team);
   
   if (error) {
+    if (error.message.includes('must be')) {
+      throw new Error(`The type of field '${error.details[0].context.key}' is invalid`);
+    }
+
     throw new Error(error.message);
   }
 }
@@ -28,6 +32,10 @@ export async function registerTeam(teamDTO) {
   } catch (error) {
     if (error.constraint === 'teams_name_unique') {
       throw new Error("Team name already in use");
+    }
+
+    if (error.constraint === 'uq_team_modality_created_by') {
+      throw new Error("User already has a team in this modality");
     }
 
     throw new Error(error.message);
