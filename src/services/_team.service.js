@@ -29,7 +29,15 @@ export async function register(team) {
 
 export async function edit(team) {
   return await db('teams')
-    .update(team)
+    .update({
+      name: team.name,
+      abbreviation: team.abbreviation,
+      flag_url: team.flag_url,
+      monthly_fee: team.monthly_fee,
+      updated_by: team.user_id,
+    })
+    .where({ id: team.id })
+    .returning(['id', 'name', 'abbreviation', 'flag_url', 'monthly_fee', 'modality', 'created_by', 'updated_by', 'created_at', 'updated_at'])
     .then((results) => results[0]);
 }
 
