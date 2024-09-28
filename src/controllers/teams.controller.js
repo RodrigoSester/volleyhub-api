@@ -72,12 +72,18 @@ const remove = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  const teams = await getAllTeamsUseCase();
-
-  res.send({
-    message: "",
-    body: teams,
-  });
+  try {
+    const teams = await getAllTeamsUseCase();
+  
+    res.send({
+      message: "",
+      body: teams,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const getById = async (req, res) => {
