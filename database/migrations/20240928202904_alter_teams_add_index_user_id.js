@@ -5,6 +5,7 @@
 export function up(knex) {
   return knex.schema.alterTable("teams", (table) => {
     table.index(["modality", "created_by"], "idx_team_modality_created_by");
+    table.unique(["modality", "created_by"], "uq_team_modality_created_by");
   });
 };
 
@@ -14,6 +15,7 @@ export function up(knex) {
  */
 export function down(knex) {
   return knex.schema.alterTable("teams", (table) => {
-    table.dropIndex("idx_team_modality_created_by");
+    table.dropIndex(["modality", "created_by"], "idx_team_modality_created_by");
+    table.dropUnique(["modality", "created_by"], "uq_team_modality_created_by");
   });
 };
