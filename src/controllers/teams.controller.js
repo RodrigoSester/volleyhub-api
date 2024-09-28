@@ -30,14 +30,27 @@ const register = async (req, res) => {
 };
 
 const edit = async (req, res) => {
-  const body = {...req.body};
+  const { userId } = req.authorizer;
 
-  const updatedTeam = await editTeamUseCase(body);
+  const teamDTO = {
+    ...req.body,
+    id: req.params.id,
+    user_id: userId,
+  };
 
-  res.send({
-    message: "Team updated successfully",
-    body: updatedTeam,
-  }).status(200);
+  try {
+    const updatedTeam = await editTeamUseCase(teamDTO);
+
+    res.send({
+      message: "Team updated successfully",
+      body: updatedTeam,
+    }).status(200);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message
+    });
+  }
+
 };
 
 const remove = async (req, res) => {
