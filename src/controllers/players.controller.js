@@ -153,12 +153,9 @@ const remove = async (req, res) => {
       teamId,
       user_id: userId,
     };
-    const player = await removeTeamPlayerUseCase(teamPlayersDTO);
+    await removeTeamPlayerUseCase(teamPlayersDTO);
   
-    res.send({
-      message: "Team player removed successfully",
-      body: player,
-    });
+    res.status(204).send();
   } catch (error) {
     res.status(400).json({
       message: error.message,
