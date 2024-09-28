@@ -8,15 +8,21 @@ import {
 const getAll = async (req, res) => {
   const teamId = req.params.teamId;
 
-  const teamPlayersDTO = {
-    teamId,
-  };
-  const players = await getAllPlayersUseCase(teamPlayersDTO);
-
-  res.send({
-    message: "",
-    body: players,
-  });
+  try {
+    const teamPlayersDTO = {
+      teamId,
+    };
+    const players = await getAllPlayersUseCase(teamPlayersDTO);
+  
+    res.send({
+      message: "",
+      body: players,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const getById = async (req, res) => {
