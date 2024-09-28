@@ -1,4 +1,5 @@
 import {
+  getTeamById as getTeamByIdUseCase,
   getAllPlayers as getAllPlayersUseCase,
   getPlayerById as getPlayerByIdUseCase,
   editPlayer as editPlayerUseCase,
@@ -92,6 +93,32 @@ const invitePlayer = async (req, res) => {
   }
 };
 
+const generateInvite = async (req, res) => {
+  const { teamId } = req.params;
+  const { userId } = req.authorizer;
+
+  const team = await getTeamByIdUseCase(teamId);
+
+  if (team.created_by !== userId) {
+    res.status(400).json({
+      message: "You are not the team owner",
+    });
+  }
+
+  const hashParams = {
+    teamId,
+    teamOwnerId: userId,
+  };
+  const hash = crypto.createHash('sha256').update(JSON.stringify(hashParams)).digest('hex');
+
+  res.send({
+    message: "Invite generated successfully",
+    body: {
+      hash,
+    },
+  });
+}
+
 const edit = async (req, res) => {
   const { teamId, id } = req.params;
   const { userId } = req.authorizer;
@@ -143,6 +170,7 @@ export default {
   getAll,
   getById,
   invitePlayer,
+  generateInvite,
   edit,
   remove,
 }
