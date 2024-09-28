@@ -27,6 +27,15 @@ export async function registerTeam(teamDTO) {
 
   try {
     const teamRegistered = await teamService.register(teamDTO);
+
+    const teamPlayerDTO = {
+      teamId: teamRegistered.id,
+      playerId: teamDTO.user_id,
+      userId: teamDTO.user_id,
+      isActive: true,
+      type: 'owner',
+    };
+    await teamPlayerService.register(teamPlayerDTO);
   
     return teamRegistered;
   } catch (error) {
