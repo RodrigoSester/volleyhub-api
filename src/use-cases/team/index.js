@@ -8,3 +8,4 @@ export * from "./player/_get-all-players.use-case.js";
 export * from "./player/_get-player-by-id.use-case.js";
 export * from "./player/_edit-player.use-case.js";
 export * from "./player/_remove-player.use-case.js";
+export * from "./player/_register-player.use-case.js";
