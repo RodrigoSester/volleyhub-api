@@ -55,11 +55,11 @@ export async function edit(playerDTO) {
 
 export async function remove(playerDTO) {
   return await db('team_players')
-  .update({ 
-    'is_deleted': true,
-    'deleted_at': new Date().toISOString(),
-    'deleted_by': playerDTO.userId,
-  })
-  .where({ 'player_id': playerDTO.playerId, 'is_deleted': false })
-  .then((results) => results[0]);
+    .update({ 
+      'is_deleted': true,
+      'deleted_at': new Date().toISOString(),
+      'deleted_by': playerDTO.userId,
+    })
+    .where({ 'id': playerDTO.id, 'is_deleted': false })
+    .then((results) => results[0]);
 }

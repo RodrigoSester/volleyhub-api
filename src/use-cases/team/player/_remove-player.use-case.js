@@ -10,7 +10,7 @@ export async function removeTeamPlayer(playerDTO) {
     throw new Error('Team not found');
   }
 
-  const player = await teamPlayerService.getById(playerDTO.playerId);
+  const player = await teamPlayerService.getById(playerDTO.id);
 
   if (!player) {
     throw new Error('Player not found');

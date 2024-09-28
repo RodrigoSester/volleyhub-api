@@ -76,8 +76,8 @@ const remove = async (req, res) => {
 
   try {
     const teamPlayersDTO = {
+      id,
       teamId,
-      playerId: id,
       user_id: userId,
     };
     const player = await removeTeamPlayerUseCase(teamPlayersDTO);
