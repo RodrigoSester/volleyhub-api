@@ -37,7 +37,11 @@ export async function editPlayer(playerDTO) {
     throw new Error('Player not found');
   }
 
-  const playerUpdated = await teamPlayerService.edit(playerDTO);
+  try {
+    const playerUpdated = await teamPlayerService.edit(playerDTO);
 
-  return playerUpdated;
+    return playerUpdated;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
