@@ -41,8 +41,16 @@ export async function register(playerDTO) {
 
 export async function edit(playerDTO) {
   return await db('team_players')
-    .where({ 'player_id': playerDTO.playerId })
-    .update(playerDTO);
+  .update({
+    'is_active': playerDTO.isActive,
+    'shirt_number': playerDTO.shirtNumber,
+    'type': playerDTO.type,
+    'updated_at': new Date().toISOString(),
+    'updated_by': playerDTO.userId,
+  })
+  .where({ 'player_id': playerDTO.playerId, 'is_deleted': false })
+  .returning('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number')
+  .first();
 }
 
 export async function remove(playerDTO) {
