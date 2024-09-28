@@ -4,7 +4,8 @@ export async function getById(teamId) {
   return await db('teams')
     .select('*')
     .from('teams')
-    .where({ id: teamId });
+    .where({ id: teamId })
+    .first();
 }
 
 export async function getAll() {
@@ -41,8 +42,13 @@ export async function edit(team) {
     .then((results) => results[0]);
 }
 
-export async function remove(teamId) {
+export async function remove(teamId, userId) {
   return await db('teams')
-    .update(teamId)
+    .update({
+      deleted_at: new Date(),
+      deleted_by: userId,
+      is_deleted: true,
+    })
+    .where({ id: teamId })
     .then((results) => results[0]);
 }

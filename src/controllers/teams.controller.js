@@ -55,12 +55,20 @@ const edit = async (req, res) => {
 
 const remove = async (req, res) => {
   const teamId = req.params.id;
+  const { userId } = req.authorizer;
 
-  await removeTeamUseCase(teamId);
+  try {
+    await removeTeamUseCase(teamId, userId);
+  
+    res.send({
+      message: "Team removed successfully",
+    }).status(204);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message
+    });
+  }
 
-  res.send({
-    message: "Team removed successfully",
-  }).status(204);
 };
 
 const getAll = async (req, res) => {
