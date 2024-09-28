@@ -20,7 +20,7 @@ export async function getById(playerId) {
       'u.profile_photo as player_photo', 
       'u.document as player_document'
     )
-    .where({ 'tp.player_id': playerId, 'tp.is_deleted': false })
+    .where({ 'tp.id': playerId, 'tp.is_deleted': false })
     .first();
 }
 
@@ -42,15 +42,15 @@ export async function register(playerDTO) {
 export async function edit(playerDTO) {
   return await db('team_players')
   .update({
-    'is_active': playerDTO.isActive,
-    'shirt_number': playerDTO.shirtNumber,
+    'is_active': playerDTO.is_active,
+    'shirt_number': playerDTO.shirt_number,
     'type': playerDTO.type,
     'updated_at': new Date().toISOString(),
     'updated_by': playerDTO.userId,
   })
   .where({ 'player_id': playerDTO.playerId, 'is_deleted': false })
-  .returning('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number')
-  .first();
+  .returning(['id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number'])
+  .then((results) => results[0]);
 }
 
 export async function remove(playerDTO) {
@@ -61,4 +61,5 @@ export async function remove(playerDTO) {
     'deleted_by': playerDTO.userId,
   })
   .where({ 'player_id': playerDTO.playerId, 'is_deleted': false })
+  .then((results) => results[0]);
 }
