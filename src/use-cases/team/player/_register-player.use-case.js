@@ -23,7 +23,7 @@ function _validateRegisterTeamPlayer(teamPlayerDTO) {
   }
 }
 
-const registerTeamPlayer = async (teamPlayerDTO) => {
+export async function registerTeamPlayer (teamPlayerDTO) {
   _validateRegisterTeamPlayer(teamPlayerDTO);
 
   const team = await teamService.getById(teamPlayerDTO.teamId);
