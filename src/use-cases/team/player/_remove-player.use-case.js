@@ -1,4 +1,7 @@
-
+import {
+  teamService,
+  teamPlayerService,
+} from '../../../services/index.js';
 
 export async function removeTeamPlayer(playerDTO) {
   const team = await teamService.getById(playerDTO.teamId);
