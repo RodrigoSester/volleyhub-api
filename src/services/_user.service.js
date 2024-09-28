@@ -9,7 +9,7 @@ export async function register(user) {
 
 export async function getUserByEmail (email) {
   return await db('users')
-    .select('id', 'name', 'email')
+    .select('id', 'name', 'email', 'password')
     .where({ email })
     .first();
 }
