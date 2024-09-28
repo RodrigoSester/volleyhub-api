@@ -1,9 +1,11 @@
 import db from '../../database/config/index.js';
 
 export async function getAll() {
-  return await db()
-    .select("*")
-    .from('team_players');
+  return await db('team_players')
+    .select('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number')
+    .where({ 'is_deleted': false })
+    .orderBy('shirt_number', 'asc')
+    .then((results) => results);
 }
 
 export async function getById(playerId) {
