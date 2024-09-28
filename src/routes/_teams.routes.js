@@ -15,5 +15,6 @@ teamsRouter.get("/:teamId/players", playersController.getAll);
 teamsRouter.get("/:teamId/players/:id", playersController.getById);
 teamsRouter.put("/:teamId/players/:id", playersController.edit);
 teamsRouter.delete("/:teamId/players/:id", playersController.remove);
+teamsRouter.post("/players/invite", playersController.invitePlayer);
 
 export default teamsRouter;

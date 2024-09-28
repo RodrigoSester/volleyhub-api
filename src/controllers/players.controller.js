@@ -5,6 +5,8 @@ import {
   removeTeamPlayer as removeTeamPlayerUseCase,
 } from '../use-cases/team/index.js';
 
+import crypto from 'crypto';
+
 const getAll = async (req, res) => {
   const teamId = req.params.teamId;
 
@@ -37,6 +39,49 @@ const getById = async (req, res) => {
   
     res.send({
       message: "",
+      body: player,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+const _isValidLink = (linkParams) => {
+  const hashParams = {
+    teamId: linkParams.teamId,
+    teamOwnerId: linkParams.teamOwnerId,
+  };
+  const hashCheck = crypto.createHash('sha256').update(JSON.stringify(hashParams)).digest('hex');
+
+  return linkParams.hash === hashCheck;
+}
+
+const invitePlayer = async (req, res) => {
+  const { teamId, userId: teamOwnerId, hash } = req.query;
+  const { userId } = req.authorizer;
+
+  if (!_isValidLink({ teamId, teamOwnerId, hash })) {
+    res.status(400).json({
+      message: "Invalid link",
+    });
+  }
+
+  try {
+    const teamPlayersDTO = {
+      teamId,
+      playerId: userId,
+      shirtNumber: null,
+      type: 'player',
+      isActive: true,
+      userId: teamOwnerId,
+      hash,
+    };
+    const player = await registerPlayerUseCase(teamPlayersDTO);
+  
+    res.send({
+      message: "Player invited successfully",
       body: player,
     });
   } catch (error) {
@@ -91,12 +136,12 @@ const remove = async (req, res) => {
       message: error.message,
     });
   }
-
 };
 
 export default {
   getAll,
   getById,
+  invitePlayer
   edit,
   remove,
 }
