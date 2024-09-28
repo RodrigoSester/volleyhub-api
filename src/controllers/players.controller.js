@@ -47,20 +47,27 @@ const getById = async (req, res) => {
 };
 
 const edit = async (req, res) => {
-  const teamId = req.params.teamId;
-  const playerId = req.params.playerId;
+  const { teamId, id } = req.params;
+  const { userId } = req.authorizer;
 
-  const teamPlayersDTO = {
-    teamId,
-    playerId,
-    ...req.body,
-  };
-  const player = await editPlayerUseCase(teamPlayersDTO);
-
-  res.send({
-    message: "",
-    body: player,
-  });
+  try {
+    const teamPlayersDTO = {
+      ...req.body,
+      teamId,
+      playerId: id,
+      user_id: userId,
+    };
+    const player = await editPlayerUseCase(teamPlayersDTO);
+  
+    res.send({
+      message: "",
+      body: player,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 const remove = async (req, res) => {
