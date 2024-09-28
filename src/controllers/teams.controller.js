@@ -83,12 +83,18 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   const teamId = req.params.id;
 
-  const team = await getTeamByIdUseCase(teamId);
-
-  res.send({
-    message: "",
-    body: team,
-  });
+  try {
+    const team = await getTeamByIdUseCase(teamId);
+  
+    res.send({
+      message: "",
+      body: team,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 export default {
