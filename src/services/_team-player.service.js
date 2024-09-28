@@ -24,6 +24,21 @@ export async function getById(playerId) {
     .first();
 }
 
+export async function register(playerDTO) {
+  return await db('team_players')
+    .insert({
+      'team_id': playerDTO.teamId,
+      'player_id': playerDTO.playerId,
+      'is_active': playerDTO.isActive,
+      'shirt_number': playerDTO?.shirtNumber,
+      'type': playerDTO.type,
+      'created_at': new Date().toISOString(),
+      'created_by': playerDTO.userId,
+    })
+    .returning('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number')
+    .first();
+}
+
 export async function edit(playerDTO) {
   return await db('team_players')
     .where({ 'player_id': playerDTO.playerId })
