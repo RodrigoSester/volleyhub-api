@@ -4,7 +4,7 @@ export async function getById(teamId) {
   return await db('teams')
     .select('*')
     .from('teams')
-    .where({ id: teamId })
+    .where({ id: teamId, is_deleted: false })
     .first();
 }
 
@@ -37,7 +37,7 @@ export async function edit(team) {
       monthly_fee: team.monthly_fee,
       updated_by: team.user_id,
     })
-    .where({ id: team.id })
+    .where({ id: team.id, is_deleted: false })
     .returning(['id', 'name', 'abbreviation', 'flag_url', 'monthly_fee', 'modality', 'created_by', 'updated_by', 'created_at', 'updated_at'])
     .then((results) => results[0]);
 }
@@ -49,6 +49,6 @@ export async function remove(teamId, userId) {
       deleted_by: userId,
       is_deleted: true,
     })
-    .where({ id: teamId })
+    .where({ id: teamId, is_deleted: false })
     .then((results) => results[0]);
 }
