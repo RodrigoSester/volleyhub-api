@@ -3,6 +3,7 @@ import {
   getPlayerById as getPlayerByIdUseCase,
   editPlayer as editPlayerUseCase,
   removeTeamPlayer as removeTeamPlayerUseCase,
+  registerTeamPlayer as registerPlayerUseCase,
 } from '../use-cases/team/index.js';
 
 import crypto from 'crypto';
@@ -141,7 +142,7 @@ const remove = async (req, res) => {
 export default {
   getAll,
   getById,
-  invitePlayer
+  invitePlayer,
   edit,
   remove,
 }
