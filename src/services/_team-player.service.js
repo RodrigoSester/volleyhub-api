@@ -20,7 +20,7 @@ export async function getById(playerId) {
       'u.profile_photo as player_photo', 
       'u.document as player_document'
     )
-    .where({ 'player_id': playerId })
+    .where({ 'tp.player_id': playerId, 'tp.is_deleted': false })
     .first();
 }
 
