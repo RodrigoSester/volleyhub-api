@@ -7,12 +7,14 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
+dotenv.config();
+
 function _setToken(req, user) {
   const tokenData = {
     id: user.id,
     email: user.email,
   };
-  const token = jsonwebtoken.sign(tokenData, dotenv.config().parsed?.JWT_SECRET, {
+  const token = jsonwebtoken.sign(tokenData, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 

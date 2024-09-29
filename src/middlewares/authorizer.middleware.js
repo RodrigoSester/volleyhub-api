@@ -5,12 +5,14 @@ import {
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
+dotenv.config();
+
 async function _verifyAuthorization(authorization) {
   if (!authorization) {
     throw new Error("Unauthorized");
   }
 
-  return jsonwebtoken.verify(authorization, dotenv.config().parsed.JWT_SECRET, (err) => {
+  return jsonwebtoken.verify(authorization, process.env.JWT_SECRET, (err) => {
     if (err) {
       throw new Error("Unauthorized");
     }
