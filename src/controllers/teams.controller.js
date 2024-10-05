@@ -33,9 +33,12 @@ const edit = async (req, res) => {
   const { userId } = req.authorizer;
 
   const teamDTO = {
-    ...req.body,
     id: req.params.id,
     user_id: userId,
+    name: req.body.name,
+    abbreviation: req.body.abbreviation,
+    flag_url: req.body.flag_url,
+    monthly_fee: req.body.monthly_fee
   };
 
   try {
