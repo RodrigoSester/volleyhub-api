@@ -53,3 +53,10 @@ export async function remove(teamId, userId) {
     .where({ id: teamId, is_deleted: false })
     .then((results) => results[0]);
 }
+
+export async function getTeamByUserId(userId) {
+  return await db('teams')
+    .select('*')
+    .from('teams')
+    .where({ created_by: userId, is_deleted: false });
+}

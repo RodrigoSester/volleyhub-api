@@ -2,8 +2,6 @@ import { Router } from "express";
 
 const userRouter = Router();
 
-userRouter.get("/users", (req, res) => {
-  res.send("All users");
-});
+userRouter.get("/user/teams", usersController.getAllTeamsByUser);
 
 export default userRouter;
