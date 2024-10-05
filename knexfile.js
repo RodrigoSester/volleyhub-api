@@ -1,7 +1,7 @@
-import { developmentConfig } from "./database/config/index.js";
+import { config } from "./database/config/index.js";
 
 import knex from 'knex';
 
-export const development = developmentConfig;
+export const databaseConfig = config;
 
-knex(development);
+knex(databaseConfig);
