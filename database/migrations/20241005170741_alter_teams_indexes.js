@@ -16,6 +16,6 @@ export function up(knex) {
 export function down(knex) {
   return knex.schema.raw(`
     DROP INDEX IF EXISTS idx_team_modality_created_by;
-    CREATE UNIQUE INDEX uq_teams_modality_created_by ON teams (modality, created_by);
+    CREATE INDEX idx_team_modality_created_by ON teams (modality, created_by);
   `)
 };
