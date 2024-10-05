@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const config = {
+const config = {
   client: 'pg',
   connection: {
     port: process.env.DB_PORT,
@@ -19,3 +19,5 @@ export const config = {
     directory: './database/seeds',
   },
 };
+
+export default config;
