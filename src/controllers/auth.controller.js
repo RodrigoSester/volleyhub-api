@@ -15,7 +15,7 @@ function _setToken(req, user) {
     email: user.email,
   };
   const token = jsonwebtoken.sign(tokenData, process.env.JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "30s",
   });
 
   user.token = token;
@@ -103,7 +103,7 @@ const refreshToken = async (req, res) => {
     }
 
     const tokenUser = jsonwebtoken.decode(authorization);
-    const refreshTokenUser = jsonwebtoken.verify(refreshToken, process.env.JWT_SECRET);
+    const refreshTokenUser = jsonwebtoken.decode(refreshToken);
 
     if (tokenUser.id !== refreshTokenUser.id) {
       throw new Error("Unauthorized");
@@ -122,6 +122,7 @@ const refreshToken = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(401).send({
       message: error.message,
     });
