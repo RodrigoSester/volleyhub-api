@@ -1,4 +1,4 @@
-import db from '../../database/config/index.js';
+import db from '../../database/db.js';
 
 export async function getAll() {
   return await db('team_players')
