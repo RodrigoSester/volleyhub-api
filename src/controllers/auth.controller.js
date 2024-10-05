@@ -15,7 +15,7 @@ function _setToken(req, user) {
     email: user.email,
   };
   const token = jsonwebtoken.sign(tokenData, process.env.JWT_SECRET, {
-    expiresIn: "1m",
+    expiresIn: "1h",
   });
 
   user.token = token;
