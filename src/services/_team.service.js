@@ -9,9 +9,10 @@ export async function getById(teamId) {
 }
 
 export async function getAll() {
-  return await db()
+  return await db('teams')
     .select("*")
-    .from('teams');
+    .from('teams')
+    .where({ is_deleted: false });
 }
 
 export async function register(team) {
