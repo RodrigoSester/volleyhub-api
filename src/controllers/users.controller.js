@@ -22,5 +22,5 @@ const getAllTeamsByUser = async (req, res) => {
 };
 
 export default {
-  getAll,
+  getAllTeamsByUser,
 }
