@@ -54,7 +54,7 @@ export async function remove(teamId, userId) {
     .then((results) => results[0]);
 }
 
-export async function getTeamByUserId(userId) {
+export async function getTeamsByUserId(userId) {
   return await db('teams')
     .select('*')
     .from('teams')

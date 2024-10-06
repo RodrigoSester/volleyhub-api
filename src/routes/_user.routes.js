@@ -3,6 +3,6 @@ import usersController from "../controllers/users.controller.js";
 
 const userRouter = Router();
 
-userRouter.get("/user/teams", usersController.getAllTeamsByUser);
+userRouter.get("/teams", usersController.getAllTeamsByUser);
 
 export default userRouter;
