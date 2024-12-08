@@ -1,0 +1,31 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Copy files via SCP
+      run: |
+        scp -r . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
+
+    - name: Install dependencies and start application
+      run: |
+        ssh root@46.202.151.126 << 'EOF'
+        cd /workspace/volleyhub/volleyhub-api
+        npm install
+        pm2 restart all || pm2 start index.js
+        EOF
