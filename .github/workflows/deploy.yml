@@ -17,14 +17,14 @@ jobs:
         steps:
           - run: git clone https://github.com/RodrigoSester/volleyhub-api.git
 
-     - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          eval $(ssh-agent)
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        eval $(ssh-agent)
+        ssh-add ~/.ssh/id_rsa
+        ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
 
     - name: Copy files via SCP
       run: |
