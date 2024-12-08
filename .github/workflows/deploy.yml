@@ -10,11 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout'
-      run:
-        using: 'composite'
-        steps:
-          - run: git clone https://github.com/RodrigoSester/volleyhub-api.git
+    - name: 'Checkout code'
+      run: |
+        git clone https://github.com/RodrigoSester/volleyhub-api.git
+        git checkout development
 
     - name: Setup SSH
       run: |
