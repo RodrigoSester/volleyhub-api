@@ -10,36 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout code'
-      run: |
-        git clone https://github.com/RodrigoSester/volleyhub-api.git
-        cd volleyhub-api/
-        git checkout development
+      - uses: actions/checkout@v3  # Checkout code from your repository
 
-    - name: Test SSH connection
-      run: |
-        ssh -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
+      - name: Add SSH key (avoid storing private key directly)
+        uses: webfactory/ssh-agent@v1  # Action to manage SSH keys
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Access private key securely
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | sed 's/\\n/\n/g' > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        eval $(ssh-agent)
-        ssh-add ~/.ssh/id_rsa
-        ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
+      - name: Test SSH connection (optional)
+        run: |
+          ssh -T -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
 
-    - name: Copy files via rsync
-      run: |
-        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
+      - name: Copy files via rsync (recommended for efficiency)
+        run: |
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
-    - name: Copy files via SCP
-      run: |
-        scp -r volleyhub-api/* github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
-
-    - name: Install dependencies and start application
-      run: |
-        ssh github-acitons@46.202.151.126 << 'EOF'
-        cd /workspace/volleyhub/volleyhub-api
-        npm install
-        pm2 restart all || pm2 start index.js
+      - name: Install dependencies and start application (using SSH)
+        run: |
+          ssh github-acitons@46.202.151.126 << 'EOF'
+            cd /workspace/volleyhub/volleyhub-api
+            npm install
+            pm2 restart all || pm2 start index.js
+          EOF
