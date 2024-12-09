@@ -17,10 +17,6 @@ jobs:
         cd volleyhub-api/
         git checkout development
 
-    - name: Verify SSH_PRIVATE_KEY length
-      run: |
-        echo "Length of SSH_PRIVATE_KEY: ${#${{ secrets.SSH_PRIVATE_KEY }}}"
-
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
@@ -32,6 +28,7 @@ jobs:
 
     - name: Copy files via SCP
       run: |
+        ls
         scp -r . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Install dependencies and start application
