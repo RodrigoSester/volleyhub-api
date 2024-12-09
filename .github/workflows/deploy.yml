@@ -17,6 +17,10 @@ jobs:
         cd volleyhub-api/
         git checkout development
 
+    - name: Test SSH connection
+      run: |
+        ssh -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
@@ -25,6 +29,10 @@ jobs:
         eval $(ssh-agent)
         ssh-add ~/.ssh/id_rsa
         ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
+
+    - name: Copy files via rsync
+      run: |
+        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Copy files via SCP
       run: |
