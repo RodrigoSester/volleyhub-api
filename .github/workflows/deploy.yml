@@ -16,11 +16,14 @@ jobs:
         cd volleyhub-api/
         git checkout development
 
+    - name: Verify SSH_PRIVATE_KEY length
+      run: |
+        echo "Length of SSH_PRIVATE_KEY: ${#${{ secrets.SSH_PRIVATE_KEY }}}"
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | sed 's/\\n/\n/g' > ~/.ssh/id_rsa
-        ${{ secrets.SSH_PRIVATE_KEY }}
         chmod 600 ~/.ssh/id_rsa
         eval $(ssh-agent)
         ssh-add ~/.ssh/id_rsa
