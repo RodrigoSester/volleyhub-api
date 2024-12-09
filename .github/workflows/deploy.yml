@@ -28,7 +28,6 @@ jobs:
 
     - name: Copy files via SCP
       run: |
-        ls
         scp -r . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Install dependencies and start application
