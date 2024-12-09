@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - development
-  workflow-dispatch: # Dispatch workflow
+  workflow_dispatch: # Dispatch workflow
 
 jobs:
   deploy:
