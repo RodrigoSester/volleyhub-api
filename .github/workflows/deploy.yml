@@ -18,15 +18,15 @@ jobs:
 
     - name: Test SSH connection (optional)
       run: |
-        ssh -T -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
+        ssh -T -o StrictHostKeyChecking=no root@46.202.151.126 "echo 'SSH connection successful'"
 
     - name: Copy files via rsync (recommended for efficiency)
       run: |
-        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
+        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Install dependencies and start application (using SSH)
       run: |
-        ssh github-acitons@46.202.151.126 << 'EOF'
+        ssh root@46.202.151.126 << 'EOF'
           cd /workspace/volleyhub/volleyhub-api
           npm install
           pm2 restart all || pm2 start index.js
