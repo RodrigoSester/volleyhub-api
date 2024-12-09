@@ -12,8 +12,8 @@ jobs:
     steps:
     - name: 'Checkout code'
       run: |
-        git clone https://github.com/RodrigoSester/volleyhub-api.git repo
-        cd repo
+        git clone https://github.com/RodrigoSester/volleyhub-api.git
+        cd volleyhub-api/
         git checkout development
 
     - name: Setup SSH
