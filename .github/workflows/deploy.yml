@@ -10,25 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3  # Checkout code from your repository
+    - name: 'Checkout code'
+      run: |
+        git clone https://github.com/RodrigoSester/volleyhub-api.git
+        cd volleyhub-api/
+        git checkout development
 
-      - name: Add SSH key (avoid storing private key directly)
-        uses: webfactory/ssh-agent@v1  # Action to manage SSH keys
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Access private key securely
+    - name: Test SSH connection (optional)
+      run: |
+        ssh -T -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
 
-      - name: Test SSH connection (optional)
-        run: |
-          ssh -T -o StrictHostKeyChecking=no github-acitons@46.202.151.126 "echo 'SSH connection successful'"
+    - name: Copy files via rsync (recommended for efficiency)
+      run: |
+        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
-      - name: Copy files via rsync (recommended for efficiency)
-        run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
-
-      - name: Install dependencies and start application (using SSH)
-        run: |
-          ssh github-acitons@46.202.151.126 << 'EOF'
-            cd /workspace/volleyhub/volleyhub-api
-            npm install
-            pm2 restart all || pm2 start index.js
-          EOF
+    - name: Install dependencies and start application (using SSH)
+      run: |
+        ssh github-acitons@46.202.151.126 << 'EOF'
+          cd /workspace/volleyhub/volleyhub-api
+          npm install
+          pm2 restart all || pm2 start index.js
+        EOF
