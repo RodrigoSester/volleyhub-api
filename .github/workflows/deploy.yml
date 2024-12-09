@@ -12,7 +12,8 @@ jobs:
     steps:
     - name: 'Checkout code'
       run: |
-        git clone https://github.com/RodrigoSester/volleyhub-api.git
+        git clone https://github.com/RodrigoSester/volleyhub-api.git repo
+        cd repo
         git checkout development
 
     - name: Setup SSH
@@ -26,7 +27,7 @@ jobs:
 
     - name: Copy files via SCP
       run: |
-        scp -r . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
+        scp -r repo/* root@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Install dependencies and start application
       run: |
