@@ -10,24 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout code'
-      run: |
-        git clone https://github.com/RodrigoSester/volleyhub-api.git
-        cd volleyhub-api/
-        git checkout development
+      - name: 'Checkout code'
+        run: |
+          git clone https://github.com/RodrigoSester/volleyhub-api.git
+          cd volleyhub-api/
+          git checkout development
 
-    - name: Test SSH connection (optional)
-      run: |
-        ssh -T -o StrictHostKeyChecking=no root@46.202.151.126 "echo 'SSH connection successful'"
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | sed 's/\\n/\n/g' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval $(ssh-agent)
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
 
-    - name: Copy files via rsync (recommended for efficiency)
-      run: |
-        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
+      - name: Test SSH connection (optional)
+        run: |
+          ssh -T -o StrictHostKeyChecking=no root@46.202.151.126 "echo 'SSH connection successful'"
 
-    - name: Install dependencies and start application (using SSH)
-      run: |
-        ssh root@46.202.151.126 << 'EOF'
-          cd /workspace/volleyhub/volleyhub-api
-          npm install
-          pm2 restart all || pm2 start index.js
-        EOF
+      - name: Copy files via rsync (recommended for efficiency)
+        run: |
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
+
+      - name: Install dependencies and start application (using SSH)
+        run: |
+          ssh root@46.202.151.126 << 'EOF'
+            cd /workspace/volleyhub/volleyhub-api
+            npm install
+            pm2 restart all || pm2 start index.js
+          EOF
