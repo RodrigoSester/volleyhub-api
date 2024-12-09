@@ -28,11 +28,11 @@ jobs:
 
     - name: Copy files via SCP
       run: |
-        scp -r . root@46.202.151.126:/workspace/volleyhub/volleyhub-api
+        scp -r volleyhub-api/* github-acitons@46.202.151.126:/workspace/volleyhub/volleyhub-api
 
     - name: Install dependencies and start application
       run: |
-        ssh root@46.202.151.126 << 'EOF'
+        ssh github-acitons@46.202.151.126 << 'EOF'
         cd /workspace/volleyhub/volleyhub-api
         npm install
         pm2 restart all || pm2 start index.js
