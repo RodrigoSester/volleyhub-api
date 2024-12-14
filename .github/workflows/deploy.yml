@@ -20,10 +20,10 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
-          chmod 600 ~/ghactions_id_rsa
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
           eval $(ssh-agent)
-          ssh-add ~/ghactions_id_rsa
+          ssh-add ~/.ssh/id_rsa
 
       - name: Copy files via rsync (recommended for efficiency)
         run: |
