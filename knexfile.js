@@ -5,4 +5,4 @@ import knex from 'knex';
 const databaseConfig = config;
 knex(databaseConfig);
 
-export default databaseConfig ;
+export default databaseConfig;
