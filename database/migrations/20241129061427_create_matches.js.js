@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 export function up(knex) {
-  return knex.schema('matches').createTable('matches', (table) => {});
+  // return knex.schema('matches').createTable('matches', (table) => {});
 };
 
 /**
@@ -11,5 +11,5 @@ export function up(knex) {
  * @returns { Promise<void> }
  */
 export function down(knex) {
-  return knex.schema('matches').dropTable();
+  // return knex.schema('matches').dropTable();
 };
