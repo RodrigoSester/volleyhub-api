@@ -25,6 +25,10 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
 
+      - name: Copy files via scp
+        run: |
+          scp -r . github-actions@46.202.151.126:/workspace/volleyhub/volleyhub-api
+
       - name: Install dependencies and start application (using SSH)
         run: |
           ssh github-actions@46.202.151.126 << 'EOF'
