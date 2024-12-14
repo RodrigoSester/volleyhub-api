@@ -19,11 +19,11 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | sed 's/\\n/\n/g' > ~/ghactions_id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
           chmod 600 ~/ghactions_id_rsa
+          ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
           eval $(ssh-agent)
           ssh-add ~/ghactions_id_rsa
-          ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
 
       - name: Copy files via rsync (recommended for efficiency)
         run: |
