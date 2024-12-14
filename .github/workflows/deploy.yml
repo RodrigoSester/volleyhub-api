@@ -22,7 +22,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 46.202.151.126 >> ~/.ssh/known_hosts
-          eval $(ssh-agent)
+          eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
 
       - name: Copy files via rsync (recommended for efficiency)
