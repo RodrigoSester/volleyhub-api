@@ -32,9 +32,7 @@ jobs:
       - name: Install dependencies and start application (using SSH)
         run: |
           ssh github-actions@46.202.151.126 << 'EOF'
-            ls -la
             cd workspace/volleyhub/volleyhub-api
-            ls -la
             npm install
             pm2 restart all || pm2 start index.js
           EOF
