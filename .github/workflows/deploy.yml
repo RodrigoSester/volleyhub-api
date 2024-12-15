@@ -27,7 +27,7 @@ jobs:
 
       - name: Copy files via rsync
         run: |
-          rsync -avz --delete -e ssh . github-actions@46.202.151.126:/home/github-actions/workspace/volleyhub/volleyhub-api
+          rsync -avz --delete -e ssh . github-actions@46.202.151.126:/home/github-actions/workspace/volleyhub
 
       - name: Install dependencies and start application (using SSH)
         run: |
