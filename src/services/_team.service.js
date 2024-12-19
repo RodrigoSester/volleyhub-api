@@ -1,4 +1,4 @@
-import db from '../../database/config/index.js';
+import db from '../../database/db.js';
 
 export async function getById(teamId) {
   return await db('teams')
@@ -9,9 +9,10 @@ export async function getById(teamId) {
 }
 
 export async function getAll() {
-  return await db()
+  return await db('teams')
     .select("*")
-    .from('teams');
+    .from('teams')
+    .where({ is_deleted: false });
 }
 
 export async function register(team) {
@@ -51,4 +52,11 @@ export async function remove(teamId, userId) {
     })
     .where({ id: teamId, is_deleted: false })
     .then((results) => results[0]);
+}
+
+export async function getTeamsByUserId(userId) {
+  return await db('teams')
+    .select('*')
+    .from('teams')
+    .where({ created_by: userId, is_deleted: false });
 }

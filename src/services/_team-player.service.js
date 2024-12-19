@@ -1,4 +1,4 @@
-import db from '../../database/config/index.js';
+import db from '../../database/db.js';
 
 export async function getAll() {
   return await db('team_players')
@@ -35,8 +35,7 @@ export async function register(playerDTO) {
       'created_at': new Date().toISOString(),
       'created_by': playerDTO.userId,
     })
-    .returning('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number')
-    .first();
+    .returning('id', 'team_id', 'player_id', 'is_active', 'type', 'shirt_number');
 }
 
 export async function edit(playerDTO) {

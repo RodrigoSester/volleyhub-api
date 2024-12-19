@@ -1,4 +1,4 @@
-import db from '../../database/config/index.js';
+import db from '../../database/db.js';
 
 export async function register(user) {
   return await db('users')
