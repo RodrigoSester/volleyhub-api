@@ -27,14 +27,14 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "DB_PORT=${{ env.Development.secrets.DB_PORT }}" >> .env
+          echo "DB_HOST=${{ env.Development.secrets.DB_HOST }}" >> .env
+          echo "DB_USER=${{ env.Development.secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ env.Development.secrets.DB_PASSWORD }}" >> .env
+          echo "DB_DATABASE=${{ env.Development.secrets.DB_DATABASE }}" >> .env
+          echo "NODE_ENV=${{ env.Development.secrets.NODE_ENV }}" >> .env
+          echo "PORT=${{ env.Development.secrets.PORT }}" >> .env
+          echo "JWT_SECRET=${{ env.Development.secrets.JWT_SECRET }}" >> .env
 
       - name: Copy files via rsync
         run: |
