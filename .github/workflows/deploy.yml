@@ -34,5 +34,6 @@ jobs:
           ssh github-actions@46.202.151.126 << 'EOF'
             cd workspace/volleyhub/volleyhub-api
             npm install
+            npm run migrations && npm run seeds
             pm2 restart all || pm2 start index.js
           EOF
