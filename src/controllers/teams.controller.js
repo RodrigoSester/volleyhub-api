@@ -12,7 +12,7 @@ const register = async (req, res) => {
 
   const teamDTO = {
     ...body,
-    user_id: userId,
+    userId
   };
 
   try {

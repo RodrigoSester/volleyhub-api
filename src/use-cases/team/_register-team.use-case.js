@@ -8,10 +8,10 @@ function _validateTeamBody(team) {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     abbreviation: Joi.string().max(5).required(),
-    flag_url: Joi.string().uri(),
-    monthly_fee: Joi.number().integer(),
+    flagUrl: Joi.string(),
+    monthlyFee: Joi.number().integer(),
     modality: Joi.string().valid('female', 'male', 'mixed').required(),
-    user_id: Joi.number().integer().required(),
+    userId: Joi.number().integer().required(),
   });
   
   const { error } = schema.validate(team);
@@ -33,8 +33,8 @@ export async function registerTeam(teamDTO) {
 
     const teamPlayerDTO = {
       teamId: teamRegistered.id,
-      playerId: teamDTO.user_id,
-      userId: teamDTO.user_id,
+      playerId: teamDTO.userId,
+      userId: teamDTO.userId,
       isActive: true,
       type: 'owner',
     };
