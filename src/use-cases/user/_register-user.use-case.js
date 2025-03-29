@@ -5,7 +5,6 @@ import { userService } from '../../services/index.js';
 
 function _validateUserBody (user) {
   const schema = Joi.object({
-    profile_photo: Joi.string().uri(),
     name: Joi.string().min(3).required(),
     phone: Joi.string().min(8).required(),
     email: Joi.string().email().required(),
