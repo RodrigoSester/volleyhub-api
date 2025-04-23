@@ -1,11 +1,32 @@
 import db from '../../database/db.js';
 
 export async function getById(teamId) {
-  return await db('teams')
-    .select('*')
-    .from('teams')
-    .where({ id: teamId, is_deleted: false })
-    .first();
+  const result = await db.raw(`
+    SELECT
+      t.id,
+      t."name",
+      t.abbreviation,
+      t.flag_url as flagUrl,
+      t.monthly_fee as monthlyFee,
+      t.modality,
+      t.created_at as created_at,
+      ARRAY(
+        SELECT JSONB_BUILD_OBJECT(
+          'type', tp.type,
+          'isActive', tp.is_active,
+          'shirtNumber', tp.shirt_number,
+          'name', u."name"
+        )
+        FROM team_players tp
+        LEFT JOIN users u ON tp.player_id = u.id
+        WHERE tp.team_id = t.id AND (not tp.is_deleted) AND tp.is_active
+      ) AS players
+    FROM teams t
+    WHERE t.id = ?
+      AND (NOT t.is_deleted);
+  `, [teamId]);
+
+  return result.rows[0];
 }
 
 export async function getAll() {
