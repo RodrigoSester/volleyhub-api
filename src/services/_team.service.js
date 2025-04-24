@@ -1,4 +1,5 @@
 import db from '../../database/db.js';
+import databaseHelper from '../helpers/database-helper.js';
 
 export async function getById(teamId) {
   const result = await db.raw(`
@@ -6,10 +7,10 @@ export async function getById(teamId) {
       t.id,
       t."name",
       t.abbreviation,
-      t.flag_url as flagUrl,
-      t.monthly_fee as monthlyFee,
+      t.flag_url,
+      t.monthly_fee,
       t.modality,
-      t.created_at as created_at,
+      t.created_at,
       ARRAY(
         SELECT JSONB_BUILD_OBJECT(
           'type', tp.type,
@@ -26,7 +27,7 @@ export async function getById(teamId) {
       AND (NOT t.is_deleted);
   `, [teamId]);
 
-  return result.rows[0];
+  return databaseHelper.camelCase(result.rows)[0];
 }
 
 export async function getAll() {
