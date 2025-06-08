@@ -1,9 +1,11 @@
+
 import {
   editTeam as editTeamUseCase,
   getAllTeams as getAllTeamsUseCase,
   getTeamById as getTeamByIdUseCase,
   registerTeam as registerTeamUseCase,
   removeTeam as removeTeamUseCase,
+  joinTeamUseCase
 } from "../use-cases/team/index.js";
 
 const register = async (req, res) => {
@@ -106,10 +108,35 @@ const getById = async (req, res) => {
   }
 };
 
+const joinTeam = async (req, res) => {
+  const queryParams = req.query;
+  const { link } = req.body;
+  const { userId } = req.authorizer;
+
+  try {
+    const body = {
+      queryParams,
+      link,
+      userId
+    }
+    const team = await joinTeamUseCase(body);
+  
+    res.send({
+      message: "Joined team successfully",
+      body: team,
+    }).status(200);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+}
+
 export default {
   register,
   edit,
   remove,
   getAll,
   getById,
+  joinTeam
 };

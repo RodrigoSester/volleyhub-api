@@ -10,7 +10,9 @@ teamsRouter.put("/:id", teamsController.edit);
 teamsRouter.delete("/:id", teamsController.remove);
 teamsRouter.get("/", teamsController.getAll);
 teamsRouter.get("/:id", teamsController.getById);
+teamsRouter.post("/join", teamsController.joinTeam);
 
+// team's players
 teamsRouter.get("/:teamId/players/generate-invite", playersController.generateInvite);
 teamsRouter.get("/:teamId/players", playersController.getAll);
 teamsRouter.get("/:teamId/players/:id", playersController.getById);

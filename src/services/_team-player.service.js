@@ -62,3 +62,11 @@ export async function remove(playerDTO) {
     .where({ 'id': playerDTO.id, 'is_deleted': false })
     .then((results) => results[0]);
 }
+
+export async function getMembershipByUserIdAndTeamId(userId, teamId) {
+  return await db('team_players')
+    .select('id')
+    .from('team_players')
+    .where({ player_id: userId, team_id: teamId, is_deleted: false })
+    .first();
+}
