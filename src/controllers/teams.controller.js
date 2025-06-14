@@ -109,13 +109,11 @@ const getById = async (req, res) => {
 };
 
 const joinTeam = async (req, res) => {
-  const queryParams = req.query;
   const { link } = req.body;
   const { userId } = req.authorizer;
 
   try {
     const body = {
-      queryParams,
       link,
       userId
     }

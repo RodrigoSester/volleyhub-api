@@ -1,25 +1,25 @@
-import { teamService } from '../../services/team.service.js';
-import { teamPlayerService } from '../../services/index.js';
+import { teamService, teamPlayerService } from '../../services/index.js';
 
 import teamPlayerTypeEnum from '../../enums/team-player-type.enum.js';
 
 export async function joinTeamUseCase(body) {
-  const { queryParams, link, userId } = body;
+  const { link, userId } = body;
 
-  if (!link || !link.startsWith(`${process.env.BASE_URL}/teams/invite`)) {
+  if (!link?.startsWith(`${process.env.BASE_URL}/teams/invite`)) {
     throw new Error('Invalid team link format');
   }
 
-  if (!queryParams?.expiration && !queryParams?.teamId) {
-    throw new Error('Missing required query parameters: expiration or teamId');
+  const queryParams = new URLSearchParams(link.split('?')[1]);
+  if (!queryParams.has('expiration') && !queryParams.has('teamId')) {
+    throw new Error('Missing required query parameters');
   }
 
-  const creationTimestamp = parseInt(queryParams.expiration, 10);
+  const creationTimestamp = parseInt(queryParams.get('expiration'), 10);
   if (isNaN(creationTimestamp)) {
     throw new Error('Invalid expiration timestamp format');
   }
 
-  const now = Date.now();
+  const now = Math.floor(Date.now() / 1000);
   const twentyFourHoursInMs = 24 * 60 * 60 * 1000;
   const expiryTime = creationTimestamp + twentyFourHoursInMs;
 
@@ -27,7 +27,7 @@ export async function joinTeamUseCase(body) {
     throw new Error('Team invitation link has expired (valid for 24 hours from creation)');
   }
 
-  const teamId = queryParams.teamId;
+  const teamId = queryParams.get('teamId');
 
   const team = await teamService.getById(teamId);
   if (!team) {
