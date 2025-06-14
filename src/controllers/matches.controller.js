@@ -1,4 +1,6 @@
-const { registerMatchUseCase } = require("../use-cases/matches");
+import {
+  registerMatch as registerMatchUseCase
+} from "../use-cases/matches/index.js";
 
 const register = async (req, res) => {
   const { userId } = req.authorizer;
@@ -21,6 +23,6 @@ const register = async (req, res) => {
   }
 }
 
-module.exports = {
+export default {
   register
 };

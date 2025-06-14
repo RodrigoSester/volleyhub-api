@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { matchService } from "../../services";
+import { matchService } from "../../services/index.js";
 
 function _validateRegisterMatchBody(match) {
   const schema = Joi.object({
@@ -18,7 +18,7 @@ function _validateRegisterMatchBody(match) {
   }
 }
 
-export async function registerMatchUseCase(matchData) {
+export async function registerMatch(matchData) {
   _validateRegisterMatchBody(matchData);
   return await matchService.registerMatch(matchData);
 }
