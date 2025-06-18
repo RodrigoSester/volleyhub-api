@@ -82,3 +82,16 @@ export async function getTeamsByUserId(userId) {
     .from('teams')
     .where({ created_by: userId, is_deleted: false });
 }
+
+export async function getTeamsWhereUserIsNotMember(userId) {
+  return await db('teams')
+    .select('teams.*')
+    .leftJoin('team_players', function() {
+      this.on('teams.id', '=', 'team_players.team_id')
+          .andOn('team_players.player_id', '=', db.raw('?', [userId]))
+          .andOn('team_players.is_deleted', '=', db.raw('false'));
+    })
+    .where('teams.is_deleted', false)
+    .whereNull('team_players.id')
+    .orderBy('teams.created_at', 'desc');
+}

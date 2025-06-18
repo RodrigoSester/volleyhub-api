@@ -1,11 +1,11 @@
-
 import {
   editTeam as editTeamUseCase,
   getAllTeams as getAllTeamsUseCase,
   getTeamById as getTeamByIdUseCase,
   registerTeam as registerTeamUseCase,
   removeTeam as removeTeamUseCase,
-  joinTeamUseCase
+  joinTeamUseCase,
+  getTeamsWhereUserIsNotMember as getTeamsWhereUserIsNotMemberUseCase
 } from "../use-cases/team/index.js";
 
 const register = async (req, res) => {
@@ -130,11 +130,29 @@ const joinTeam = async (req, res) => {
   }
 }
 
+const getTeamsWhereUserIsNotMember = async (req, res) => {
+  const { userId } = req.authorizer;
+
+  try {
+    const teams = await getTeamsWhereUserIsNotMemberUseCase(userId);
+  
+    res.send({
+      message: "",
+      body: teams,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 export default {
   register,
   edit,
   remove,
   getAll,
   getById,
-  joinTeam
+  joinTeam,
+  getTeamsWhereUserIsNotMember
 };

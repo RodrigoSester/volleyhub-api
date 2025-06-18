@@ -4,6 +4,7 @@ export * from "./_remove-team.use-case.js";
 export * from "./_get-all-teams.use-case.js";
 export * from "./_get-team-by-id.use-case.js";
 export * from "./_get-teams-by-user-id.use-case.js";
+export * from "./_get-teams-where-user-is-not-member.use-case.js";
 export * from "./_join-team.use-case.js";
 
 export * from "./player/_get-all-players.use-case.js";
