@@ -3,6 +3,7 @@ import { matchService } from "../../services/index.js";
 
 function _validateRegisterMatchBody(match) {
   const schema = Joi.object({
+    title: Joi.string().min(3).max(50).required(),
     teamHomeId: Joi.number().integer().required(),
     teamAwayId: Joi.number().integer().optional(),
     modality: Joi.string().allow('male', 'female', 'mixed').required(),

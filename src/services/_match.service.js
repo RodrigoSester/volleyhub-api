@@ -12,6 +12,7 @@ export async function getMatchesByUser(userId) {
 export async function register(match) {
   return await db('matches')
     .insert({
+      title: match.title,
       team_home_id: match.teamHomeId,
       team_away_id: match.teamAwayId,
       date: match.date,
