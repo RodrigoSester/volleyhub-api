@@ -9,11 +9,13 @@ function _validateRegisterMatchBody(match) {
     modality: Joi.string().allow('male', 'female', 'mixed').required(),
     type: Joi.string().allow('friendly', 'leisure', 'training', 'tournament').required(),
     value: Joi.number().integer().min(0).optional(),
-    dateTime: Joi.date().required(),
-    location: Joi.string().min(3).required(),
+    date: Joi.date().required(),
+    adress: Joi.string().min(3).required(),
   });
 
-  const { error } = schema.validate(match);
+  const { error } = schema.validate(match, {
+    allowUnknown: true
+  });
 
   if (error) {
     throw new Error(error.message);
@@ -22,5 +24,15 @@ function _validateRegisterMatchBody(match) {
 
 export async function registerMatch(matchData) {
   _validateRegisterMatchBody(matchData);
-  return await matchService.registerMatch(matchData);
+  
+  const match = await matchService.register(matchData);
+  
+  // Register all team players with pending status
+  await matchService.registerMatchTeamPlayers(
+    match.id, 
+    matchData.teamHomeId, 
+    matchData.teamAwayId
+  );
+  
+  return match;
 }

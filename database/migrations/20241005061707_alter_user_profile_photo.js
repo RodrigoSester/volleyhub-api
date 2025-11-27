@@ -14,6 +14,6 @@ export function up(knex) {
  */
 export function down(knex) {
   return knex.schema.alterTable("users", (table) => {
-    table.string('profile_photo').notNullable().alter();
+    table.string('profile_photo').nullable().alter();
   });
 };

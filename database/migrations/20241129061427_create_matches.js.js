@@ -9,13 +9,18 @@ export function up(knex) {
     table.integer("team_home_id").notNullable();
     table.foreign("team_home_id").references("id").inTable("teams");
 
-    table.integer("team_away_id").notNullable();
+    table.integer("team_away_id").nullable();
     table.foreign("team_away_id").references("id").inTable("teams");
 
     table.enum("modality", ["female", "male", "mixed"]).notNullable();
+    table.enum("match_type", ["friendly", "leisure", "training", "tournament"]);
 
-    table.date("date").notNullable();
-    table.integer("value").notNullable();
+    table.string("title", 50).nullable();
+    table.timestamp("date").notNullable();
+    table.integer("value").nullable();
+    table.string("adress", 100).nullable();
+
+    table.json("result")
 
     table.integer("created_by").references("id").inTable("users");
     table.timestamp("created_at").defaultTo(knex.fn.now());
@@ -24,6 +29,8 @@ export function up(knex) {
     table.boolean("is_deleted").defaultTo(false);
     table.timestamp("deleted_at");
 
+    table.index(["team_home_id"], "idx_matches_team_home_id");
+    table.index(["team_away_id"], "idx_matches_team_away_id");
     table.index(["team_home_id", "team_away_id"], "idx_matches_team_home_id_team_away_id");
   });
 };
