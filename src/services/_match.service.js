@@ -5,8 +5,8 @@ export async function getMatchesByUser(userId) {
     .select('m.id', 'm.title', 'm.team_home_id', 'm.team_away_id', 'm.date', 'm.modality', 'm.value', 'm.match_type', 'm.adress', 'mtp.status').distinct()
     .from('matches as m')
     .leftJoin('teams', db.raw('m.team_home_id = teams.id OR m.team_away_id = teams.id'))
-    .leftJoin('team_players', db.raw('team_players.team_id = teams.id AND (NOT team_players.is_deleted) AND team_players.is_active AND team_players.player_id = ?', [userId]))
-    .leftJoin('match_team_player as mtp', function() {
+    .join('team_players', db.raw('team_players.team_id = teams.id AND (NOT team_players.is_deleted) AND team_players.is_active AND team_players.player_id = ?', [userId]))
+    .join('match_team_player as mtp', function() {
       this.on('mtp.team_match_id', '=', 'm.id')
           .andOn('mtp.team_player_id', '=', 'team_players.id')
           .andOn('mtp.is_deleted', '=', db.raw('false'))

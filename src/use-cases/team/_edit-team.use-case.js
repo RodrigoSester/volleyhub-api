@@ -6,9 +6,9 @@ function _validateUpdateTeamBody(team) {
     id: Joi.number().integer().required(),
     name: Joi.string().min(3).required(),
     abbreviation: Joi.string().max(5).required(),
-    flag_url: Joi.string().uri().empty(''),
-    monthly_fee: Joi.number().integer(),
-    user_id: Joi.number().integer().required(),
+    flagUrl: Joi.string(),
+    monthlyFee: Joi.string(),
+    userId: Joi.number().integer().required(),
   });
   
   const { error } = schema.validate(team);
@@ -28,6 +28,7 @@ export async function editTeam(body) {
   }
 
   try {
+    body.monthlyFee = parseInt(body.monthlyFee)
     const teamUpdated = await teamService.edit(body);
 
     return teamUpdated;

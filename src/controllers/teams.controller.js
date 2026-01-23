@@ -36,11 +36,11 @@ const edit = async (req, res) => {
 
   const teamDTO = {
     id: req.params.id,
-    user_id: userId,
+    userId: userId,
     name: req.body.name,
     abbreviation: req.body.abbreviation,
-    flag_url: req.body.flag_url,
-    monthly_fee: req.body.monthly_fee
+    flagUrl: req.body.flagUrl,
+    monthlyFee: req.body.monthlyFee
   };
 
   try {

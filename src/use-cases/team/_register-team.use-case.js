@@ -9,7 +9,7 @@ function _validateTeamBody(team) {
     name: Joi.string().min(3).required(),
     abbreviation: Joi.string().max(5).required(),
     flagUrl: Joi.string(),
-    monthlyFee: Joi.number().integer(),
+    monthlyFee: Joi.string(),
     modality: Joi.string().valid('female', 'male', 'mixed').required(),
     userId: Joi.number().integer().required(),
   });
@@ -29,6 +29,7 @@ export async function registerTeam(teamDTO) {
   _validateTeamBody(teamDTO);
 
   try {
+    teamDTO.monthlyFee = parseInt(teamDTO.monthlyFee);
     const teamRegistered = await teamService.register(teamDTO);
 
     const teamPlayerDTO = {
